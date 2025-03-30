@@ -81,10 +81,28 @@ This will run the frontend on http://localhost:3000.
 
 ## Project Components Implementation
 ### Ultrasonic Sensor
+- This implementation uses the HC-SR04 ultrasonic sensor to detect the distance between the sensor and the medication box lid, helping determine whether the box is opened or closed.
+- We are using RPi.GPIO to control the TRIG and ECHO pins, and calculate distance based on the time taken for an ultrasonic pulse to return.
+- When the buzzer alert is triggered, the ultrasonic sensor begins continuous distance measurement to check for box status:
+  - If the distance is greater than 10cm, the box is considered opened.
+  - If the distance drops below 10cm again, it is considered closed.
+- MQTT is used to publish box state updates (Box Opened / Box Closed) to the web dashboard in real time.
+- The sensor also plays a role in managing the facial recognition process:
+  - Starts face recognition when the box is opened
+  - Terminates face recognition once the box is closed again
 
 ### Facial Recognition
 
 ### Buzzer
+- This implementation uses a passive buzzer to alert patients when it is time to take their medication or when an unauthorised user is taking the medication.
+- We are using RPi.GPIO's PWM feature to activate the buzzer in periodic pulses (on-off beeping) for better audibility.
+- The buzzer is triggered in the following scenarios:
+  - When the current time matches a scheduled medication time, it starts beeping until the ultrasonic sensor detects that the box has been opened.
+  - When facial recognition detects an unrecognized face, the buzzer immediately beeps as an alert for potential unauthorized access.
+- This dual-purpose alerting system improves both medication adherence and physical access security.
+- MQTT works alongside this setup to:
+  - Monitor whether the alert condition is resolved (i.e., box opened or unauthorised user detected)
+  - Help trigger follow-up actions like SMS alerts and logging to the dashboard
 
 ### Text Recognition
 - This implementation performs real-time text detection using a webcam to identify medication names. The process is integrated with MQTT messaging to communicate with an IoT device, alerting caregivers when incorrect medication is taken.
@@ -96,14 +114,29 @@ This will run the frontend on http://localhost:3000.
 - Tesseract will extract text and conver to lower case for comparison
 - MQTT is also used to publish/receive any alerts/updates between web server
 
-
-
 ### RFID 
 
 ### Weight Sensor
 
 
 ## Test Experiments and Results
+
+### Ultrasonic Sensor
+| Experiment                              | Subject                                      | Observation                               |
+| ----------------------------------------| -------------------------------------------- | ------------------------------------------|
+| Check distance detection sensitivity    | Object placed at 5cm, 10cm, and 20cm from sensor | Sensor accurately measured distance within ±1 cm |
+| Check false triggers                    | No object in front of sensor                 | Sensor remained stable, no false readings  |
+| Check box open/close threshold          | Lid opened beyond 10 cm                      | Sensor consistently triggered “Box Opened” event |
+
+### Facial Recognition
+
+### Buzzer
+| Experiment                              | Subject                                      | Observation                               |
+| ----------------------------------------| -------------------------------------------- | ------------------------------------------|
+| Check buzzer activation on schedule     | System time matches medication schedule      | Buzzer beeps at correct time               |
+| Check buzzer on unauthorized access     | Unknown face shown during facial recognition | Buzzer beeped immediately after detection  |
+| Check buzzer duration and audibility    | Let buzzer run for 30s in a quiet room       | Sound was clear and loud at 3–5 meter range |
+
 ### Text Detection
 
 | Experiment                                      | Subject                                      | Observation                                    |
@@ -113,7 +146,9 @@ This will run the frontend on http://localhost:3000.
 | Check if image resolution affects accuracy     | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)`  | Text detected 18 out of 20 labels        |
 |                                                | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)` | Text detected 10 out of 20 labels       |
 
+### RFID 
 
+### Weight Sensor
 
 ## Team Responsibilities
 
