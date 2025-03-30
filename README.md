@@ -87,6 +87,15 @@ This will run the frontend on http://localhost:3000.
 ### Buzzer
 
 ### Text Recognition
+- This implementation performs real-time text detection using a webcam to identify medication names. The process is integrated with MQTT messaging to communicate with an IoT device, alerting caregivers when incorrect medication is taken.
+- We are using OpenCV which captures and processes frames from the webcam. Pytesseract which uses Optical Character Recognition (OCR) to extract text from images.
+- When the web cam is turned on, it captures frames using OpenCV and does preprocessing to improve OCR Accuracy:
+  - convert to grayscale
+  - Blurred using GaussianBlur to reduce noise
+  - Thresholding applied to highlight text
+- Tesseract will extract text and conver to lower case for comparison
+- MQTT is also used to publish/receive any alerts/updates between web server
+
 
 
 ### RFID 
@@ -94,7 +103,16 @@ This will run the frontend on http://localhost:3000.
 ### Weight Sensor
 
 
-## Test Experiments and Result
+## Test Experiments and Results
+### Text Detection
+
+| Experiment                                      | Subject                                      | Observation                                    |
+| ---------------------------------------------- | -------------------------------------------- | --------------------------------------------- |
+| Check if lighting affects text detection       | Placing it under a well-lit area            | Text was detected 8 out of 10 times      |
+|                                                | Placing it under a shaded area              | Text was detected 2 out of 10 times     |
+| Check if image resolution affects accuracy     | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)`  | Text was detected 8 out of 10 times.        |
+|                                                | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)` | Text was detected 5 out of 10 times.        |
+
 
 
 ## Team Responsibilities
