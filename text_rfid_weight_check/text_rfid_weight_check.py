@@ -131,6 +131,9 @@ try:
         else:
             # When box is closed
             print("Box is closed, waiting...")
+            
+            time.sleep(1)
+
                         
             # Conditions for dosage and rfid
             if not wrong_medication_flag and not wrong_rfid_flag and not haveAlerted_flag and not initial_flag:
