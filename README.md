@@ -108,10 +108,10 @@ This will run the frontend on http://localhost:3000.
 
 | Experiment                                      | Subject                                      | Observation                                    |
 | ---------------------------------------------- | -------------------------------------------- | --------------------------------------------- |
-| Check if lighting affects text detection       | Placing it under a well-lit area            | Text was detected 8 out of 10 times      |
-|                                                | Placing it under a shaded area              | Text was detected 2 out of 10 times     |
-| Check if image resolution affects accuracy     | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)`  | Text was detected 8 out of 10 times.        |
-|                                                | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)` | Text was detected 5 out of 10 times.        |
+| Check if lighting affects text detection       | Placing it under a well-lit area            | Text detected 18 out of 20 labels      |
+|                                                | Placing it under a shaded area              | Text detected 9 out of 20 labels     |
+| Check if image resolution affects accuracy     | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)`  | Text detected 18 out of 20 labels        |
+|                                                | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)` | Text detected 10 out of 20 labels       |
 
 
 
