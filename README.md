@@ -92,6 +92,12 @@ This will run the frontend on http://localhost:3000.
   - Terminates face recognition once the box is closed again
 
 ### Facial Recognition
+- The facial recognition module performs real-time facial recognition using a Raspberry Pi and a camera to identify authorized or unknown indivuduals. It integrates with MQTT to send alerts when an unknown person is detected.
+- We are using the face_recognition library from python to detect and match faces, and OpenCV to capture and annotate frames from the camera.
+- Known face encodings are loaded from a pickle file and compared with detected faces in each frame.
+- If an authorized face is recognized, no alerts will be triggered and the user can proceed with using the medication box normally.
+- If an unknown face is detected, a buzzer alert is triggered, and a snapshot is taken and sent to the web server, triggering an additional SMS notification.
+- The image is encoded in base64 and sent as a JSON payload to an MQTT topic to notify the server.
 
 ### Buzzer
 - This implementation uses a passive buzzer to alert patients when it is time to take their medication or when an unauthorised user is taking the medication.
@@ -141,6 +147,23 @@ This will run the frontend on http://localhost:3000.
 | Check box open/close threshold          | Lid opened beyond 10 cm                      | Sensor consistently triggered “Box Opened” event |
 
 ### Facial Recognition
+| Experiment                                      | Subject                                                                 | Observation                                        |
+| ---------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------- |
+| Check if lighting affects facial recognition   | Placing face under a well-lit area                                      | Face correctly detected 19 out of 20 attempts     |
+|                                                | Placing face under a dimly lit area                                     | Face correctly detected 17 out of 20 attempts     |
+| Check if frame resizing affects accuracy       | `cv_scaler = 5`                                                         | Face correctly detected 20 out of 20 attempts. Better FPS and accuracy    |
+|                                                | `cv_scaler = 15`                                                        | Face correctly detected 12 out of 20 attempts. Lower FPS and accuracy  |
+| Check if face distance affects recognition     | `cv_scaler = 5` Face placed within 1 meter of camera                                     | Faces detected 20 out of 20 attempts     |
+|                                                | `cv_scaler = 5` Face placed beyond 2 meters                                           | Faces detected 0 out of 20 attempts      |
+|                                                | `cv_scaler = 15` Face placed beyond 1 meters                                           | Faces detected 20 out of 20 attempts      |
+|                                                | `cv_scaler = 15` Face placed beyond 2 meters                                           | Faces detected 20 out of 20 attempts      |
+|                                                | `cv_scaler = 10` Face placed beyond 1 meters                                           | Faces detected 20 out of 20 attempts      |
+|                                                | `cv_scaler = 10` Face placed beyond 2 meters                                           | Faces detected 16 out of 20 attempts      |
+| Check if face angle affects recognition        | Face looking straight at camera                                         | Authorized face detected 20 out of 20 attempts     |
+|                                                | Face tilted ~30° sideways                                               | Authorized face detected 12 out of 20 attempts     |
+| Check MQTT payload sent on unknown detection   | MQTT broker active and reachable                                        | JSON payload with image sent successfully          |
+|                                                | MQTT broker offline                                                     | Image not sent, no alert triggered                 |
+
 
 ### Buzzer
 | Experiment                              | Subject                                      | Observation                               |
