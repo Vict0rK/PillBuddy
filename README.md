@@ -115,8 +115,20 @@ This will run the frontend on http://localhost:3000.
 - MQTT is also used to publish/receive any alerts/updates between web server
 
 ### RFID 
+- This implementation utilizes the MFRC522 RFID sensor to scan for medication tags when the box is opened.
+- The sensor communicates with the Raspberry Pi through SPI (Serial Peripheral Interface), which allows efficient communication between the sensor and the Raspberry Pi.
+- The sensor continuously scans for RFID tags inside the box, ensuring the correct medication is detected:
+  - If the correct RFID tag is not found in the box, the system assumes that the patient has taken the correct medication, confirming proper medication adherence.
+  - If an incorrect RFID tag is detected, an alert is triggered, notifying the system and caregivers of potential issues.
+ - MQTT protocol is used to communicate the medication status to the web dashboard in real time, ensuring that any discrepancies or issues with medication intake are promptly addressed.
 
 ### Weight Sensor
+- This system uses the HX711 load cell to measure the weight of the medication inside the box.
+- The load cell detects weight changes whenever the box is opened or interacted with, helping to track whether the medication has been taken.
+  - The sensor sends data to the Raspberry Pi, which processes the weight difference before and after the box is interacted with.
+  - The system then compares the weight change to the expected dosage, ensuring that the correct amount of medication has been removed.
+  - If the weight difference deviates significantly from the expected dosage, an alert is generated.
+- MQTT is employed to send dosage alerts to the web dashboard,
 
 
 ## Test Experiments and Results
