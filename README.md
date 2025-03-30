@@ -158,9 +158,26 @@ This will run the frontend on http://localhost:3000.
 | Check if image resolution affects accuracy     | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)`  | Text detected 18 out of 20 labels        |
 |                                                | `cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1080)` <br> `cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 700)` | Text detected 10 out of 20 labels       |
 
-### RFID 
+### RFID
+
+| Experiment                                       | Subject                                                | Observation                                         |
+| ------------------------------------------------ | ------------------------------------------------------ | --------------------------------------------------- |
+| Check RFID detection accuracy                    | Scan RFID tags with known and unknown IDs               | Correct RFID tag detected; incorrect or unknown tags not recognized |
+| Check RFID tag read time                         | Scan a known RFID tag multiple times in quick succession | RFID tag consistently detected in less than 1 second |
+| Check for RFID tag removal                       | Remove RFID tag and wait for 3 cycles                   | Sensor detects missing tag after 3 cycles |
+| Check RFID scan sensitivity in varying conditions | Place RFID tag at different angles or distances         | RFID detection still accurate at a range of up to 5 cm |
+| Check behavior when no RFID tag is detected      | No RFID tag in the box                                 | Sensor accurately detects absence |
 
 ### Weight Sensor
+
+| Experiment                                       | Subject                                               | Observation                                         |
+| ------------------------------------------------ | ----------------------------------------------------- | --------------------------------------------------- |
+| Check weight measurement accuracy                | Weigh known objects (e.g., 10g, 50g, 100g items)       | Weight measurements matched actual values within ±2g |
+| Check weight sensor response time               | Measure weight after placing items in the box          | Response time consistently under 5 second for each measurement |
+| Check weight stability during box open/close     | Box opened and closed with known dosage inside         | Weight consistently measured during open and closed states |
+| Check tolerance for weight variation             | Compare measured weight with expected dosage (e.g., 50g ± 5g) | Measured weight was within the acceptable tolerance range |
+| Check weight sensor accuracy with varying conditions | Place items of different shapes and materials inside the box | Consistent weight measurements regardless of material type (plastic, metal, etc.) |
+
 
 ## Team Responsibilities
 
