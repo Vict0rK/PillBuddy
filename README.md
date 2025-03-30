@@ -80,12 +80,12 @@ This will run the frontend on http://localhost:3000.
 
 
 
-### Libraries Used
+## Libraries Used
 
 
-### Test Experiments and Results
+## Test Experiments and Results
 
 
-### Team Responsibilities
+## Team Responsibilities
 
 
