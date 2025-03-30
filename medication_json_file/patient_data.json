@@ -1,0 +1,16 @@
+{
+    "name": "Aaron",
+    "medications_to_take": [
+        {
+            "_id": "67e2a7999cb6267f32d03212",
+            "patient_id": "67d7d4cdb3a8ff587a899f16",
+            "name": "Panadol",
+            "timings": ["09:00", "21:36", "23:00"],
+            "dosage": "28",
+            "unit": "g",
+            "stock": "10",
+            "stockUnit": "g"
+        }
+    ],
+    "medication_list": ["Panadol", "Zyrtec"]
+}

@@ -1,0 +1,8 @@
+flask
+flask-cors
+pymongo
+flask-pymongo
+python-dotenv
+twilio
+pytz
+numpy

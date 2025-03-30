@@ -1,0 +1,50 @@
+services:
+  mongo:
+    image: arm64v8/mongo:4.4.18
+    container_name: mongodb
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: backend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      MONGO_URI: ${MONGO_URI}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    volumes:
+      - .env:/app/.env
+      - /etc/localtime:/etc/localtime:ro
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    restart: always
+    env_file:
+      - .env
+    environment:
+      REACT_APP_API_BASE_URL: ${REACT_APP_API_BASE_URL}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
