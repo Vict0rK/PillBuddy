@@ -153,7 +153,7 @@ This will run the frontend on http://localhost:3000.
 |                                                | Placing face under a dimly lit area                                     | Faces correctly detected 17 out of 20 attempts     |
 | Check if frame resizing affects accuracy       | `cv_scaler = 5`                                                         | Faces correctly detected 20 out of 20 attempts. Better FPS and accuracy    |
 |                                                | `cv_scaler = 15`                                                        | Faces correctly detected 17 out of 20 attempts. Lower FPS and accuracy   |
-|                                                | `cv_scaler = 10`                                                        | Faces correctly detected 20 out of 20 attempts.   |
+|                                                | `cv_scaler = 10`                                                        | Faces correctly detected 20 out of 20 attempts   |
 | Check if face distance affects recognition     | Face placed within 1 meter of camera `cv_scaler = 5`                                     | Faces correctly detected 20 out of 20 attempts     |
 |                                                | Face placed beyond 2 meters `cv_scaler = 5`                                           | Faces correctly detected 0 out of 20 attempts      |
 |                                                | Face placed within 1 meter of camera `cv_scaler = 15`                                           | Faces correctly detected 20 out of 20 attempts      |
