@@ -26,7 +26,7 @@ Before setting up the project, you will need the following tools installed on yo
 Clone the project repository to your local machine:
 
 ```bash
-git clone https://github.com/lowyisan/PillBuddy.git
+git clone https://github.com/Vict0rK/PillBuddy.git
 cd PillBuddy
 ```
 
