@@ -132,7 +132,7 @@ try:
             # When box is closed
             print("Box is closed, waiting...")
             
-            time.sleep(1)
+            time.sleep(3)
 
                         
             # Conditions for dosage and rfid
