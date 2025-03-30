@@ -79,10 +79,22 @@ npm start
 This will run the frontend on http://localhost:3000.
 
 
+## Project Components Implementation
+### Ultrasonic Sensor
+
+### Facial Recognition
+
+### Buzzer
+
+### Text Recognition
 
 
+### RFID 
 
-## Test Experiments and Results
+### Weight Sensor
+
+
+## Test Experiments and Result
 
 
 ## Team Responsibilities
