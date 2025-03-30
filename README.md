@@ -80,7 +80,6 @@ This will run the frontend on http://localhost:3000.
 
 
 
-## Libraries Used
 
 
 ## Test Experiments and Results
