@@ -33,13 +33,12 @@ const Logs = () => {
 
     const topics = [
       "pillbuddy/wrong_medication_alert",
-      "pillbuddy/face_rec_logs",
-      "pillbuddy/rfid_alert",
+      "pillbuddy/correct_medication_alert",
       "pillbuddy/wrong_dosage_alert",
       "pillbuddy/image"
     ];
 
-    const client = mqtt.connect("ws://192.168.162.172:9001"); // Your MQTT broker URL
+    const client = mqtt.connect("ws://192.168.220.172:9001"); // Your MQTT broker URL
 
     client.on("connect", () => {
       console.log("Connected to MQTT broker");

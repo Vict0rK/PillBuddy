@@ -123,7 +123,7 @@ try:
 
             
             if wrong_medication_flag and not initial_flag and not haveAlerted_flag:
-                #publish_message(client, mqtt_topic_publish_wrong_medication_alert, "Wrong Medication Taken")
+                publish_message(client, mqtt_topic_publish_wrong_medication_alert, "Wrong Medication Taken")
                 print("Published Wrong Medication Taken")
                 haveAlerted_flag = True
                  
@@ -135,14 +135,14 @@ try:
             # Conditions for dosage and rfid
             if not wrong_medication_flag and not wrong_rfid_flag and not haveAlerted_flag and not initial_flag:
                 if wrong_dosage_flag:
-                    #publish_message(client, mqtt_topic_publish_wrong_dosage_alert, "Incorrect Dosage Taken")
+                    publish_message(client, mqtt_topic_publish_wrong_dosage_alert, "Incorrect Dosage Taken")
                     print("Published Wrong Dosage Alert")
                     haveAlerted_flag = True
                     #wrong_dosage_flag = False
                     #initial_flag = True
 
                 elif not wrong_dosage_flag:
-                    #publish_message(client, mqtt_topic_publish_correct_medication_alert, "Medication Taken Correctly")
+                    publish_message(client, mqtt_topic_publish_correct_medication_alert, "Medication Taken Correctly")
                     print("Published Correct Medication Alert")
                     haveAlerted_flag = True
                     #initial_flag = True
