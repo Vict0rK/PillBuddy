@@ -181,4 +181,10 @@ This will run the frontend on http://localhost:3000.
 
 ## Team Responsibilities
 
-
+| Team Member                              | Responsibility                                      | 
+| ----------------------------------------| -------------------------------------------- |
+| KONG TENG FOONG VICTOR                  |        |
+| LAM JUN XIAN, AARON                     |  | 
+| LOW YI SAN                              |        |
+| MICHELLE MAGDALENE TRISOERANTO          |  - Developed and tested the buzzer notification system <br> - Implemented the ultrasonic sensor for box state detection <br> - Designed and structured the initial alert logic involving Twilio, MQTT messaging, and sensor integration <br> - Assisted in the construction of the physical box prototype <br> - Assisted in refining frontend dashboard and notification features for improved UX                                            |
+| NADHIRAH BINTI AYUB KHAN                |        |
