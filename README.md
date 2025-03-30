@@ -145,6 +145,8 @@ This will run the frontend on http://localhost:3000.
 | Check distance detection sensitivity    | Object placed at 5cm, 10cm, and 20cm from sensor | Sensor accurately measured distance within ±1 cm |
 | Check false triggers                    | No object in front of sensor                 | Sensor remained stable, no false readings  |
 | Check box open/close threshold          | Lid opened beyond 10 cm                      | Sensor consistently triggered “Box Opened” event |
+| Check effect of smoothing               | Using median filter over 5 readings          | Distance readings were smoother with fewer false values |
+
 
 ### Facial Recognition
 | Experiment                                      | Subject                                                                 | Observation                                        |
@@ -208,7 +210,7 @@ This will run the frontend on http://localhost:3000.
 | Team Member                              | Responsibility                                      | 
 | ----------------------------------------| -------------------------------------------- |
 | KONG TENG FOONG VICTOR                  |        |
-| LAM JUN XIAN, AARON                     |  | 
+| LAM JUN XIAN, AARON                     |  - Designed and implemented facial recognition module. - Modularised ultrasonic and buzzer into modules. - Integrated ultrasonic, buzzer, and facial recognition modules to trigger/deactivate functions and publish MQTT messages to other Pis. - Implemented smoothing and calibration of ultrasonic sensor module. - Implemented medication box setup (publishing information to edge pis) from web server. | 
 | LOW YI SAN                              |        |
 | MICHELLE MAGDALENE TRISOERANTO          |  - Developed and tested the buzzer notification system <br> - Implemented the ultrasonic sensor for box state detection <br> - Designed and structured the initial alert logic involving Twilio, MQTT messaging, and sensor integration <br> - Assisted in the construction of the physical box prototype <br> - Assisted in refining frontend dashboard and notification features for improved UX                                            |
 | NADHIRAH BINTI AYUB KHAN                |        |
