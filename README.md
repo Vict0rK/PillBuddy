@@ -149,18 +149,19 @@ This will run the frontend on http://localhost:3000.
 ### Facial Recognition
 | Experiment                                      | Subject                                                                 | Observation                                        |
 | ---------------------------------------------- | ----------------------------------------------------------------------- | ------------------------------------------------- |
-| Check if lighting affects facial recognition   | Placing face under a well-lit area                                      | Face correctly detected 19 out of 20 attempts     |
-|                                                | Placing face under a dimly lit area                                     | Face correctly detected 17 out of 20 attempts     |
-| Check if frame resizing affects accuracy       | `cv_scaler = 5`                                                         | Face correctly detected 20 out of 20 attempts. Better FPS and accuracy    |
-|                                                | `cv_scaler = 15`                                                        | Face correctly detected 12 out of 20 attempts. Lower FPS and accuracy  |
-| Check if face distance affects recognition     | `cv_scaler = 5` Face placed within 1 meter of camera                                     | Faces detected 20 out of 20 attempts     |
-|                                                | `cv_scaler = 5` Face placed beyond 2 meters                                           | Faces detected 0 out of 20 attempts      |
-|                                                | `cv_scaler = 15` Face placed beyond 1 meters                                           | Faces detected 20 out of 20 attempts      |
-|                                                | `cv_scaler = 15` Face placed beyond 2 meters                                           | Faces detected 20 out of 20 attempts      |
-|                                                | `cv_scaler = 10` Face placed beyond 1 meters                                           | Faces detected 20 out of 20 attempts      |
-|                                                | `cv_scaler = 10` Face placed beyond 2 meters                                           | Faces detected 16 out of 20 attempts      |
-| Check if face angle affects recognition        | Face looking straight at camera                                         | Authorized face detected 20 out of 20 attempts     |
-|                                                | Face tilted ~30° sideways                                               | Authorized face detected 12 out of 20 attempts     |
+| Check if lighting affects facial recognition   | Placing face under a well-lit area                                      | Faces correctly detected 19 out of 20 attempts     |
+|                                                | Placing face under a dimly lit area                                     | Faces correctly detected 17 out of 20 attempts     |
+| Check if frame resizing affects accuracy       | `cv_scaler = 5`                                                         | Faces correctly detected 20 out of 20 attempts. Better FPS and accuracy    |
+|                                                | `cv_scaler = 15`                                                        | Faces correctly detected 17 out of 20 attempts.   |
+|                                                | `cv_scaler = 10`                                                        | Faces correctly detected 20 out of 20 attempts. Lower FPS and accuracy  |
+| Check if face distance affects recognition     | Face placed within 1 meter of camera `cv_scaler = 5`                                     | Faces correctly detected 20 out of 20 attempts     |
+|                                                | Face placed beyond 2 meters `cv_scaler = 5`                                           | Faces correctly detected 0 out of 20 attempts      |
+|                                                | Face placed within 1 meter of camera `cv_scaler = 15`                                           | Faces correctly detected 20 out of 20 attempts      |
+|                                                | Face placed beyond 2 meters `cv_scaler = 15`                                           | Faces correctly detected 20 out of 20 attempts      |
+|                                                | Face placed within 1 meters of camera `cv_scaler = 10`                                           | Faces detected 20 out of 20 attempts      |
+|                                                | Face placed beyond 2 meters `cv_scaler = 10`                                           | Faces correctly detected 16 out of 20 attempts      |
+| Check if face angle affects recognition        | Face looking straight at camera                                         | Faces correctly detected 20 out of 20 attempts     |
+|                                                | Face tilted ~30° sideways                                               | Faces correctly detected 12 out of 20 attempts     |
 | Check MQTT payload sent on unknown detection   | MQTT broker active and reachable                                        | JSON payload with image sent successfully          |
 |                                                | MQTT broker offline                                                     | Image not sent, no alert triggered                 |
 
