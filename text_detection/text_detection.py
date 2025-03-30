@@ -201,7 +201,7 @@ while True:
                                 sent_alerts[medicine_name] = True
 
                 # Display the frame
-                cv2.imshow("Webcam Feed", frame)
+                #cv2.imshow("Webcam Feed", frame)
 
                 # Exit on 'q' key press
                 if cv2.waitKey(1) & 0xFF == ord('q'):
