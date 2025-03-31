@@ -19,6 +19,7 @@ Before setting up the project, you will need the following tools installed on yo
 - **pip** (Python package installer)
 - **MongoDB** (locally or via Atlas for cloud database)
 - **Git** (to clone the repository and track changes)
+- **Docker** (for containerized deployment)
 
 ## Setup Instructions
 
@@ -77,6 +78,25 @@ npm install
 npm start
 ```
 This will run the frontend on http://localhost:3000.
+
+### Step 4: Docker Setup (Optional)
+If you prefer to run the project using Docker, follow these steps to set up the entire environment in containers.
+
+Make sure Docker and Docker Compose are installed on your system.
+
+In the root project directory, run the following command to build and start the services:
+
+```bash
+docker-compose up --build
+```
+
+This will:
+
+- Build the Docker images for the frontend, backend, and MongoDB services.
+
+- Start all the containers as defined in the docker-compose.yml file.
+
+- The backend API will be accessible at http://localhost:5000, and the frontend will be accessible at http://localhost:3000.
 
 
 ## Project Components Implementation
