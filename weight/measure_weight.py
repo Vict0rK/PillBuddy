@@ -13,6 +13,8 @@ mqtt_topic_publish_dosage_flag = "pillbuddy/wrong_dosage_flag"
 mqtt_topic_publish_buzzer = "pillbuddy/sound_buzzer"
 mqtt_topic_subscribe_box_state = "pillbuddy/box_state"
 mqtt_topic_subscribe_setup = "pillbuddy/setup"
+mqtt_topic_publish_updated_weight = "pillbuddy/updated_weight"
+mqtt_topic_subscribe_medication_taken = "pillbuddy/medication_taken"
 mqtt_message = None
 box_open = False
 box_state_changed = False
@@ -51,6 +53,10 @@ def on_message(client, userdata, msg):
         except json.JSONDecodeError:
             print("Error: Received message is not a valid JSON format.")
 
+    elif msg.topic == "pillbuddy/medication_taken":
+        current_medication_taken = mqtt_message
+        print(f"Medication taken received: {current_medication_taken}")
+
 def publish_message(client, topic, message):
     try:
         if client.is_connected():
@@ -79,6 +85,7 @@ client.on_message = on_message
 client.connect(mqtt_broker, mqtt_port)
 client.subscribe(mqtt_topic_subscribe_box_state)
 client.subscribe(mqtt_topic_subscribe_setup)
+client.subscribe(mqtt_topic_subscribe_medication_taken)
 client.loop_start()
 
 GPIO.setmode(GPIO.BCM)
@@ -101,7 +108,7 @@ send_alerts = False
 correct_weight_count = 0
 initial_weight = None
 final_weight = None
-tolerance = 60
+tolerance = 15
 
 while True:
     if box_open:
@@ -145,6 +152,16 @@ while True:
                     print("Dosage was too much.")
                     publish_message(client, mqtt_topic_publish_dosage_flag, "True")
                     publish_message(client, mqtt_topic_publish_buzzer, "Sound")
+
+                # Publish updated weight if we have a medication name from text_detection
+                if current_medication_taken is not None:
+                    payload = json.dumps({
+                        "medication": current_medication_taken,
+                        "weight": final_weight
+                    })
+                    publish_message(client, mqtt_topic_publish_updated_weight, payload)
+                    current_medication_taken = None
+
 
             initial_weight = None
             final_weight = None

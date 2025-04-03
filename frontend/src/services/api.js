@@ -15,6 +15,11 @@ export const fetchMedications = async () => {
   return response.data;
 };
 
+export const updateMedicationWeight = async (patientId, medication, weight) => {
+  const response = await API.put(`/medications/${patientId}`, { medication, weight });
+  return response.data;
+};
+
 export const addMedication = async (medication) => {
   const response = await API.post("/medications", medication);
   return response.data;
