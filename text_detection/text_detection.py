@@ -10,6 +10,7 @@ import os
 mqtt_broker = "192.168.220.172"
 mqtt_port = 1883
 mqtt_topic_publish_wrong_medication_flag = "pillbuddy/wrong_medication_flag"
+mqtt_topic_publish_medication_taken = "pillbuddy/medication_taken"
 mqtt_topic_subscribe_box_state = "pillbuddy/box_state"  # Topic to subscribe 
 mqtt_topic_subscribe_setup = "pillbuddy/setup" 
 mqtt_message = None  # This will store the incoming MQTT message
@@ -191,10 +192,12 @@ while True:
                                 # [DECISION POINT: If wrong medication is being taken, meaning the one that is taken out is the wrong one]
                                 if medicine_name not in medicine_to_take_list:
                                     publish_message(client, "True")
+                                    client.publish(mqtt_topic_publish_medication_taken, medicine_name)
                                     print(f"?? Alert: {medicine_name} is the wrong medicine!")
                                 # [DECISION POINT: Correct medication is taken, meaning the correct one is taken out]
                                 else:
                                     publish_message(client, "False")
+                                    client.publish(mqtt_topic_publish_medication_taken, medicine_name)
                                     print(f"?? Alert: {medicine_name} is the correct medication to be taken")
                                 
                                 # Set the flag to True to prevent further alerts for this medicine
