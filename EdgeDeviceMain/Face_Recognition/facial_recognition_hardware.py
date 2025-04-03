@@ -20,7 +20,7 @@ import base64
 
 # IMAGE_TOPIC = "pillbuddy/image"
 
-MQTT_BROKER = "192.168.24.172"  # Use your broker address
+MQTT_BROKER = "192.168.220.172"  # Use your broker address
 IMAGE_TOPIC = "pillbuddy/image"
 
 # Create a unique client instance for face recognition
@@ -71,7 +71,13 @@ start_time = time.time()
 fps = 0
 
 # List of names that will trigger the GPIO pin
-authorized_names = ["aaron"]  # Replace with names you wish to authorise THIS IS CASE-SENSITIVE
+authorized_names = ["michelle"]
+if len(sys.argv) > 1:
+    try:
+        authorized_names = json.loads(sys.argv[1])
+        print("Authorized names updated to:", authorized_names)
+    except json.JSONDecodeError as e:
+        print("Failed to parse authorized names. Using default list. Error:", e)
 
 sent_unknown_face = False
 
@@ -202,7 +208,7 @@ def alert_unknown_face_detected():
     
     # Beep 3 times
     pwm.start(3)
-    time.sleep(0.5)
+    time.sleep(0.2)
     pwm.stop()
 
 
