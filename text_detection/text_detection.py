@@ -183,7 +183,7 @@ while True:
                     else: 
                         medicine["not_detected_count"] += 1  # add to 1 count if not detected
 
-                        if medicine["not_detected_count"] >= 30:  # Medicine is out of box, add to 1 count if not detected
+                        if medicine["not_detected_count"] >= 20:  # Medicine is out of box, add to 1 count if not detected
                             print(f"?? Alert: {medicine_name} is out of the box")
 
                             # If the alert has not been sent yet, send it now
@@ -198,6 +198,7 @@ while True:
                                 else:
                                     publish_message(client, "False")
                                     client.publish(mqtt_topic_publish_medication_taken, medicine_name)
+                                    
                                     print(f"?? Alert: {medicine_name} is the correct medication to be taken")
                                 
                                 # Set the flag to True to prevent further alerts for this medicine
