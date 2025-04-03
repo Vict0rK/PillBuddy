@@ -5,6 +5,7 @@ from hx711 import HX711
 import json
 import paho.mqtt.client as mqtt
 import base64
+import math  # Import math for floor division
 
 ################### MQTT ########################### 
 mqtt_broker = "192.168.220.172"
@@ -79,6 +80,7 @@ def load_medicine_toTake(json_file):
     with open(json_file, "r") as file:
         data = json.load(file)
         print(f"Loaded JSON data: {data}")
+        # This returns a list of dosages as floats. In your file, Panadol has a dosage of "28".
         return [float(med["dosage"]) for med in data["medications_to_take"]]
 
 client = mqtt.Client()
@@ -103,6 +105,7 @@ def get_weight():
         print(f"Error reading weight: {e}")
         return None
 
+# Load the expected dosage from patient_data.json.
 medicine_weight = load_medicine_toTake(path_to_json)
 
 send_alerts = False
@@ -133,11 +136,10 @@ while True:
 
             if initial_weight is not None and final_weight is not None:
                 weight_difference = round(initial_weight - final_weight, 2)
-                # Ensure the difference is a positive value
                 if weight_difference < 0:
                     weight_difference = -weight_difference
 
-                expected = medicine_weight[0]
+                expected = medicine_weight[0]  # e.g., for Panadol, expected is 28 g.
                 print(f"Weight difference: {weight_difference} g")
                 print(f"Expected: {expected} ± {tolerance} g")
 
@@ -154,14 +156,25 @@ while True:
                     publish_message(client, mqtt_topic_publish_dosage_flag, "True")
                     publish_message(client, mqtt_topic_publish_buzzer, "Sound")
 
-                # Instead of publishing the final weight, publish the weight difference.
+                # Determine the value to publish.
                 if current_medication_taken is not None:
+                    if expected - tolerance <= weight_difference <= expected + tolerance:
+                        # Correct dosage: publish exactly the expected dosage.
+                        published_difference = expected
+                    else:
+                        # Wrong dosage:
+                        # Compute the next nearest multiple of the expected dosage.
+                        # Using floor division so that we do not overestimate.
+                        number_of_pills = math.floor(weight_difference / expected)
+                        if number_of_pills < 1:
+                            number_of_pills = 1
+                        published_difference = number_of_pills * expected
+
                     payload = json.dumps({
                         "medication": current_medication_taken,
-                        "difference": weight_difference
+                        "difference": published_difference
                     })
                     publish_message(client, mqtt_topic_publish_updated_weight, payload)
-                    print(payload)
                     current_medication_taken = None
 
             initial_weight = None
