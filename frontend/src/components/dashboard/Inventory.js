@@ -5,7 +5,7 @@ import { fetchMedicationsByPatient, updateMedicationWeight } from "../../service
 const Inventory = ({ patientId }) => {
   const [medications, setMedications] = useState([]);
   const [medicationTaken, setMedicationTaken] = useState("");
-  const [updatedWeight, setUpdatedWeight] = useState(null);
+  const [updatedWeightDiff, setUpdatedWeightDiff] = useState(null);
 
   // Fetch medications for the patient
   const loadMedications = async () => {
@@ -46,23 +46,28 @@ const Inventory = ({ patientId }) => {
         // Save the medication name taken from text_detection.py
         setMedicationTaken(message);
       } else if (topic === "pillbuddy/updated_weight") {
-        // Expect a JSON payload like: { "medication": "Aspirin", "weight": 120 }
+        // Expect a JSON payload like: { "medication": "Aspirin", "difference": 20 }
         try {
           const parsed = JSON.parse(message);
-          const { medication, weight } = parsed;
-          setUpdatedWeight(weight);
+          const { medication, difference } = parsed;
+          setUpdatedWeightDiff(difference);
 
-          // Call API PUT request to update the weight for this medication in the DB
+          // Update the medication's stock by subtracting the difference
+          let newStock = 0;
+          setMedications((prevMeds) =>
+            prevMeds.map((med) => {
+              if (med.name.toLowerCase() === medication.toLowerCase()) {
+                const currentStock = parseFloat(med.stock);
+                newStock = currentStock - difference;
+                return { ...med, stock: newStock };
+              }
+              return med;
+            })
+          );
+
+          // Call API PUT request to update the medication weight (new stock) in the DB
           try {
-            await updateMedicationWeight(patientId, medication, weight);
-            // Optionally update local state for a faster UI update:
-            setMedications((prevMeds) =>
-              prevMeds.map((med) =>
-                med.name.toLowerCase() === medication.toLowerCase()
-                  ? { ...med, stock: weight }
-                  : med
-              )
-            );
+            await updateMedicationWeight(patientId, medication, newStock);
           } catch (apiError) {
             console.error("Error updating medication weight:", apiError);
           }
@@ -86,15 +91,15 @@ const Inventory = ({ patientId }) => {
     <div className="bg-white p-6 rounded-lg shadow-md w-full">
       <h3 className="text-lg font-semibold mb-4">Inventory</h3>
 
-      {/* Optionally display the latest medication taken and updated weight */}
+      {/* Optionally display the latest medication taken and weight difference */}
       {medicationTaken && (
         <div className="mb-4">
           <strong>Medication Taken:</strong> {medicationTaken}
         </div>
       )}
-      {updatedWeight !== null && (
+      {updatedWeightDiff !== null && (
         <div className="mb-4">
-          <strong>Updated Weight:</strong> {updatedWeight}
+          <strong>Weight Difference:</strong> {updatedWeightDiff} g
         </div>
       )}
 

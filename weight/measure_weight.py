@@ -29,7 +29,7 @@ json_file_path = os.path.join(json_directory, "patient_data.json")
 
 # Function to handle incoming MQTT messages
 def on_message(client, userdata, msg):
-    global mqtt_message, box_open, box_state_changed
+    global mqtt_message, box_open, box_state_changed, current_medication_taken
     mqtt_message = msg.payload.decode("utf-8")
 
     if msg.topic == "pillbuddy/box_state":
@@ -133,11 +133,11 @@ while True:
 
             if initial_weight is not None and final_weight is not None:
                 weight_difference = round(initial_weight - final_weight, 2)
-                expected = medicine_weight[0]
-
+                # Ensure the difference is a positive value
                 if weight_difference < 0:
                     weight_difference = -weight_difference
 
+                expected = medicine_weight[0]
                 print(f"Weight difference: {weight_difference} g")
                 print(f"Expected: {expected} ± {tolerance} g")
 
@@ -154,15 +154,14 @@ while True:
                     publish_message(client, mqtt_topic_publish_dosage_flag, "True")
                     publish_message(client, mqtt_topic_publish_buzzer, "Sound")
 
-                # Publish updated weight if we have a medication name from text_detection
+                # Instead of publishing the final weight, publish the weight difference.
                 if current_medication_taken is not None:
                     payload = json.dumps({
                         "medication": current_medication_taken,
-                        "weight": final_weight
+                        "difference": weight_difference
                     })
                     publish_message(client, mqtt_topic_publish_updated_weight, payload)
                     current_medication_taken = None
-
 
             initial_weight = None
             final_weight = None

@@ -15,14 +15,6 @@ def get_medications_by_patient(patient_id):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# @medication_bp.route("/medications", methods=["GET"])
-# def get_all_meds():
-#     try:
-#         meds = Medication.get_all()
-#         return jsonify(meds), 200
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
-
 @medication_bp.route("/medications/<patient_id>", methods=["PUT"])
 def update_medication_weight(patient_id):
     """
