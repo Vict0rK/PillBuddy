@@ -5,7 +5,6 @@ from hx711 import HX711
 import json
 import paho.mqtt.client as mqtt
 import base64
-from models.medication import Medication
 
 ################### MQTT ########################### 
 mqtt_broker = "192.168.220.172"
@@ -53,6 +52,10 @@ def on_message(client, userdata, msg):
             print(f"Saved setup data to {json_file_path}")
         except json.JSONDecodeError:
             print("Error: Received message is not a valid JSON format.")
+
+    elif msg.topic == "pillbuddy/medication_taken":
+        current_medication_taken = mqtt_message
+        print(f"Medication taken received: {current_medication_taken}")
 
 def publish_message(client, topic, message):
     try:
