@@ -161,6 +161,7 @@ while True:
                         "difference": weight_difference
                     })
                     publish_message(client, mqtt_topic_publish_updated_weight, payload)
+                    print(payload)
                     current_medication_taken = None
 
             initial_weight = None
