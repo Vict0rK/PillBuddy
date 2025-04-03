@@ -41,7 +41,7 @@ const Settings = ({ patientData }) => {
 
   useEffect(() => {
     // Connect to the MQTT broker over WebSockets
-    const mqttClient = mqtt.connect("ws://192.168.162.172:9001");
+    const mqttClient = mqtt.connect("ws://192.168.220.172:9001");
     setClient(mqttClient);
 
     mqttClient.on("connect", () => {
