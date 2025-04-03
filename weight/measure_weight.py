@@ -19,6 +19,7 @@ mqtt_message = None
 box_open = False
 box_state_changed = False
 correct_dosage_flag = False
+current_medication_taken = None
 
 medicine_prescriptions_column = "medicine_prescriptions"
 path_to_json = "/home/aaron/PillBuddy/medication_json_file/patient_data.json"
