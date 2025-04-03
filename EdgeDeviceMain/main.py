@@ -18,6 +18,8 @@ time.sleep(2)
 REMINDER_TIMES = ["18:27"]
 # print(f"Current reminder times: {REMINDER_TIMES}")
 
+authorized_names = []
+
 output_pickle_path = "Face_Recognition/encodings.pickle"
 
 
@@ -40,9 +42,12 @@ def decode_pickle_to_file(base64_pickle_string, output_pickle_path):
 # MQTT callback to update REMINDER_TIMES when new setup is received
 def on_reminder_update(client, userdata, message):
     global REMINDER_TIMES
+    global authorized_names
     try:
         data = json.loads(message.payload.decode())  # Parse the JSON
-        print("Received data:", data)
+        # print("Received data:", data)
+        
+        authorized_names = [data["name"].lower()]
 
         # Get the timings array from the first medication
         new_times = data["medications_to_take"][0]["timings"]
@@ -73,7 +78,7 @@ def check_reminders():
             print(f"🔔 Reminder triggered at {current_time}")
 
             # Call buzzer alert
-            reminder_alert()
+            reminder_alert(authorized_names)
 
             time.sleep(30)  # Prevent multiple triggers in the same minute
         
