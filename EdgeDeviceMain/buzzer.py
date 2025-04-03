@@ -3,6 +3,7 @@ import time
 import subprocess
 from mqtt_setup import mqtt_client
 from ultrasonic import measure_distance
+import json
 
 TOPIC_BOX_STATE = "pillbuddy/box_state"  # Keep only the topic
 
@@ -16,10 +17,10 @@ GPIO.setup(BUZZER_PIN, GPIO.OUT)
 pwm = GPIO.PWM(BUZZER_PIN, 1000)
 
 # Box closed distance
-BOX_CLOSED_DISTANCE = 50
+BOX_CLOSED_DISTANCE = 15
 
 
-def reminder_alert():
+def reminder_alert(authorized_names):
     """Function to start the buzzer alert and wait for box to be opened."""
     print("🚨 Medication Alert! Buzzer Activated.")
     
@@ -38,21 +39,24 @@ def reminder_alert():
     mqtt_client.publish(TOPIC_BOX_STATE, "Box Opened")
 
     # Start face recognition
-    face_rec_process = detect_face()
+    face_rec_process = detect_face(authorized_names)
 
     # Start monitoring if box is closed again
     check_box_closure(face_rec_process)
 
-def detect_face():
+def detect_face(authorized_names):
     """Executes the face detection script."""
     face_rec_venv_path = "/home/victor/face_rec/bin/python3"
     script_path = "/home/victor/Desktop/EdgeDeviceMain/Face_Recognition/facial_recognition_hardware.py"
     working_directory = "/home/victor/Desktop/EdgeDeviceMain/Face_Recognition" 
+    
+    serialized_names = json.dumps(authorized_names)
 
     print("🟢 Starting face recognition...")
 
     # Run the face recognition script inside the virtual environment
-    face_rec_process = subprocess.Popen([face_rec_venv_path, script_path], cwd=working_directory)
+    # face_rec_process = subprocess.Popen([face_rec_venv_path, script_path], cwd=working_directory)
+    face_rec_process = subprocess.Popen([face_rec_venv_path, script_path, serialized_names], cwd=working_directory)
     
     return face_rec_process  # Return the process so we can stop it later
 
